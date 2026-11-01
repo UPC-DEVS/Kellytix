@@ -1,0 +1,4 @@
+Columna,Tipo_Dato,Restricciones,Descripcion
+id_modelo,INT,PK | AUTO_INCREMENT,Identificador único del modelo
+version_modelo,VARCHAR(50),NOT NULL,Versión del algoritmo entrenado
+precision_algoritmo,FLOAT,NOT NULL,Porcentaje de precisión del modelo

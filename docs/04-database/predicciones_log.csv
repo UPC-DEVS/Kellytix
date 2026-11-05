@@ -1,6 +1,7 @@
 ﻿Columna,Tipo_Dato,Restricciones,Descripción
 id_prediccion,INTEGER,PRIMARY KEY,ID de la predicción generada
 id_partido,INTEGER,FOREIGN KEY,Relación con la tabla de partidos
+id_modelo,INTEGER,FOREIGN KEY,Identificador del modelo que generó este cálculo
 probabilidad_ia,"DECIMAL(5,4)",NOT NULL,Probabilidad real estimada por el modelo de ML
 cuota_mercado,"DECIMAL(5,2)",NOT NULL,Cuota disponible (restringida entre 1.50 y 1.80)
 valor_esperado,"DECIMAL(5,4)",NOT NULL,Cálculo matemático de la ventaja (EV+)

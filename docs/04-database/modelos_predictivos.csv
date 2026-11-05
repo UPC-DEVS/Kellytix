@@ -1,0 +1,8 @@
+﻿Columna,Tipo_Dato,Restricciones,Descripción
+id_modelo,INTEGER,PRIMARY KEY,Identificador único de la versión del algoritmo
+archivo_pkl,VARCHAR(100),NOT NULL,Nombre del archivo serializado (ej. modelo_v2.pkl)
+algoritmo_base,VARCHAR(50),NOT NULL,Clasificador utilizado (ej. Random Forest)
+accuracy_test,"DECIMAL(5,2)",NOT NULL,Precisión evaluada en el grupo de prueba
+yield_esperado,"DECIMAL(5,2)",NOT NULL,Rentabilidad a largo plazo en backtesting (%)
+fecha_entrenamiento,DATETIME,DEFAULT CURRENT_TIMESTAMP,Fecha en que se entrenó la versión
+en_produccion,BOOLEAN,DEFAULT FALSE,Bandera para identificar el modelo activo en FastAPI

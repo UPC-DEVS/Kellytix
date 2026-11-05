@@ -1,0 +1,8 @@
+﻿Columna,Tipo_Dato,Restricciones,Descripción
+id_usuario,INTEGER,PRIMARY KEY,Identificador único del usuario
+nombre_usuario,VARCHAR(50),NOT NULL,Nombre o alias del usuario en la plataforma
+email,VARCHAR(100),UNIQUE NOT NULL,Correo electrónico para autenticación
+password_hash,VARCHAR(255),NOT NULL,Contraseña encriptada por seguridad
+bankroll_fiat,"DECIMAL(10,2)",DEFAULT 0,Capital real ingresado (se mantiene oculto en las operativas)
+bankroll_unidades,"DECIMAL(10,2)",DEFAULT 0,Capital traducido a Unidades para el Dashboard
+fecha_registro,DATETIME,DEFAULT CURRENT_TIMESTAMP,Momento en que se creó la cuenta

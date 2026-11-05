@@ -1,0 +1,27 @@
+﻿ID,Nombre,Tipo,Prioridad,Estado,Sprint,Descripción
+RF-01,Ingesta de dataset histórico,Funcional,Alta,Pendiente,Sprint 1,El sistema debe leer e ingestar los datos del histórico CSV de las 5 grandes ligas europeas sin depender de APIs externas de pago.
+RF-02,API Propia de datos,Funcional,Alta,Pendiente,Sprint 1,"El sistema debe exponer la información deportiva mediante una API interna nativa en Python, eliminando el uso de Make/Zapier."
+RF-03,Almacenamiento estructurado SQLite,Funcional,Alta,Pendiente,Sprint 1,El sistema debe almacenar los datos en bruto y procesados en una base de datos local SQLite utilizando SQLAlchemy.
+RF-04,Procesamiento e ingeniería (ETL),Funcional,Alta,Pendiente,Sprint 1,"El sistema debe limpiar, normalizar y calcular variables estadísticas derivadas (rachas, promedios) a partir del dataset CSV."
+RF-05,Entrenar modelo predictivo,Funcional,Alta,Pendiente,Sprint 2,El sistema debe entrenar algoritmos de Machine Learning utilizando las variables preparadas del dataset histórico.
+RF-06,Generar predicciones probabilísticas,Funcional,Alta,Pendiente,Sprint 2,El sistema debe estimar la probabilidad matemática real de ocurrencia de cada resultado deportivo.
+RF-07,Criterio de Kelly (Cuotas 1.50 - 1.80),Funcional,Alta,Pendiente,Sprint 2,El algoritmo debe identificar apuestas de Valor Esperado (EV+) enfocándose estrictamente en el rango de cuotas de 1.50 a 1.80.
+RF-08,Cálculo financiero en Unidades,Funcional,Alta,Pendiente,Sprint 3,"El sistema debe calcular el monto a apostar y expresarlo en 'Unidades', desvinculando por completo la moneda local del usuario."
+RF-09,Generación de Picks Soñadores,Funcional,Media,Pendiente,Sprint 2,El sistema debe identificar pronósticos combinados de mayor riesgo y alta recompensa como mecanismo de retención comercial.
+RF-10,Ejecutar Backtesting y exportación,Funcional,Alta,Pendiente,Sprint 2,El sistema debe simular el Yield sobre datos históricos y exportar el modelo entrenado en formato .pkl.
+RF-11,Integración Modelo-Backend,Funcional,Alta,Pendiente,Sprint 3,FastAPI debe cargar el modelo .pkl en memoria para procesar predicciones y responder mediante JSON.
+RF-12,Autenticación y tokens JWT,Funcional,Alta,Pendiente,Sprint 3,El sistema debe permitir el registro e inicio de sesión seguro y gestión de sesión mediante tokens de autenticación.
+RF-13,Gestión de Bankroll,Funcional,Alta,Pendiente,Sprint 3,El usuario debe poder configurar su bankroll inicial para la conversión dinámica a Unidades.
+RF-14,Dashboard UI interactivo (React),Funcional,Alta,Pendiente,Sprint 4,"El sistema debe ofrecer un panel 100% gráfico para visualizar las Value Bets, prohibiendo la interacción mediante terminales."
+RF-15,Historial inmutable y métricas,Funcional,Media,Pendiente,Sprint 4,El sistema debe registrar las predicciones generadas y calcular el Yield y Winrate global del usuario.
+RF-16,Visualización gráfica de rentabilidad,Funcional,Media,Pendiente,Sprint 4,El Dashboard debe trazar visualmente la curva gráfica de ganancias/pérdidas del usuario a lo largo del tiempo.
+RNF-01,Tiempo de respuesta,No Funcional,Alta,Pendiente,Sprint 3,Las peticiones a la API nativa y el cálculo de predicciones deben responder en un tiempo inferior a 2 segundos.
+RNF-02,Independencia de terceros,No Funcional,Alta,Pendiente,Sprint 1,La arquitectura debe funcionar localmente sin depender de automatizaciones de pago (Make/Zapier).
+RNF-03,Seguridad y credenciales,No Funcional,Alta,Pendiente,Sprint 3,Las contraseñas deben cifrarse y la comunicación protegerse usando JWT. Uso obligatorio de archivo .env.
+RNF-04,Escalabilidad,No Funcional,Media,Pendiente,Sprint 5,El ORM debe estar diseñado para permitir una fácil migración futura de SQLite a PostgreSQL.
+RNF-05,Usabilidad sin terminales,No Funcional,Media,Pendiente,Sprint 4,"La interfaz debe ser visual y amigable, destacando los indicadores de valor sin requerir líneas de comandos."
+RNF-06,Code Review Estricto,No Funcional,Alta,Pendiente,Sprint 0,Toda integración en la rama main requiere la revisión y aprobación obligatoria de los 3 integrantes restantes.
+RNF-07,Mantenibilidad y estructura,No Funcional,Media,Pendiente,Sprint 0,"El código debe estar modularizado respetando las carpetas (src, scripts, dataBasic, pruebas)."
+RNF-08,Integridad de datos,No Funcional,Alta,Pendiente,Sprint 1,La base de datos SQLite debe mantener la consistencia mediante claves primarias y foráneas sin duplicados.
+RNF-09,Trazabilidad de predicciones,No Funcional,Alta,Pendiente,Sprint 3,Todas las predicciones deben registrarse con sello de tiempo exacto y no ser editables.
+RNF-10,Privacidad financiera,No Funcional,Media,Pendiente,Sprint 3,El sistema debe garantizar la protección y aislamiento de los datos del bankroll de cada usuario.

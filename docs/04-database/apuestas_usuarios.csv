@@ -1,0 +1,8 @@
+Columna,Tipo_Dato,Restricciones,Descripción
+id_apuesta,INTEGER,PRIMARY KEY,Identificador único de la apuesta realizada por el usuario
+id_usuario,INTEGER,FOREIGN KEY,Relación con el usuario que hace la apuesta
+id_prediccion,INTEGER,FOREIGN KEY,Relación con la predicción matemática del sistema
+unidades_invertidas,"DECIMAL(10,2)",NOT NULL,Cantidad de unidades que el usuario decidió arriesgar
+cuota_tomada,"DECIMAL(5,2) ",NOT NULL,Cuota final a la que el usuario alcanzó a meter la apuesta
+estado,VARCHAR(20),DEFAULT 'Pendiente',Estado del ticket (Pendiente / Ganada / Perdida)
+fecha_apuesta,DATETIME,DEFAULT CURRENT_TIMESTAMP,Registro exacto del momento de la inversión

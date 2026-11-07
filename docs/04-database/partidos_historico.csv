@@ -1,0 +1,11 @@
+﻿Columna,Tipo_Dato,Restricciones,Descripción
+id_partido,INTEGER,PRIMARY KEY,ID único del partido del dataset CSV
+fecha,DATE,NOT NULL,Fecha de celebración del partido histórico
+liga,VARCHAR(50),NOT NULL,Nombre de la liga (limitado a las 5 grandes de Europa)
+equipo_local,VARCHAR(50),NOT NULL,Nombre del club local
+equipo_visitante,VARCHAR(50),NOT NULL,Nombre del club visitante
+goles_local,INTEGER,NOT NULL,Goles marcados por el equipo local
+goles_visitante,INTEGER,NOT NULL,Goles marcados por el equipo visitante
+cuota_local,"DECIMAL(5,2)",NOT NULL,Cuota (Odds) histórica por victoria local
+cuota_empate,"DECIMAL(5,2)",NOT NULL,Cuota histórica por el empate
+cuota_visitante,"DECIMAL(5,2)",NOT NULL,Cuota histórica por victoria visitante

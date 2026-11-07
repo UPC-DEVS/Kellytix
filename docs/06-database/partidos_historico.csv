@@ -1,9 +1,0 @@
-Columna,Tipo_Dato,Restricciones,Descripcion
-id_partido,INT,PK | AUTO_INCREMENT,Identificador único del partido
-equipo_local,VARCHAR(100),NOT NULL,Nombre del equipo local
-equipo_visitante,VARCHAR(100),NOT NULL,Nombre del equipo visitante
-goles_local,INT,DEFAULT 0,Goles anotados por el equipo local
-goles_visitante,INT,DEFAULT 0,Goles anotados por el equipo visitante
-cuotas_apuesta,"DECIMAL(5,2)",NULL,Cuotas extraídas de la API externa
-fecha_partido,DATETIME,NOT NULL,Fecha y hora en que se jugó el partido
-estadisticas_previas,JSON,NULL,Datos estadísticos previos al encuentro

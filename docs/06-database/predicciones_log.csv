@@ -1,9 +1,0 @@
-Columna,Tipo_Dato,Restricciones,Descripcion
-id_prediccion,INT,PK | AUTO_INCREMENT,Identificador único de la predicción
-id_usuario,INT,FK -> usuarios(id_usuario),Usuario que solicitó la predicción
-id_partido,INT,FK -> partidos_historico(id_partido),Partido sobre el cual se hizo la predicción
-resultado_predicho,VARCHAR(50),NOT NULL,El resultado que calculó el modelo
-probabilidad,FLOAT,NOT NULL,Probabilidad estadística del resultado
-nivel_confianza,FLOAT,NULL,Nivel de confianza del algoritmo
-riesgo_detectado,VARCHAR(100),NULL,Advertencias sobre la predicción
-fecha_creacion,TIMESTAMP,DEFAULT CURRENT_TIMESTAMP,Fecha exacta en que se generó la predicción

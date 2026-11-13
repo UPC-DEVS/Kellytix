@@ -41,13 +41,16 @@ llave = ["match_date", "home_team", "away_team"]
 informe["Duplicados (filas eliminadas)"] = int(d.duplicated(llave).sum())
 d = d.drop_duplicates(llave)
 
-# 4. Cuotas válidas: sin vacíos, mayores que 1 y con probabilidad implícita razonable
-mal = d[CUOTAS].isna().any(axis=1) | (d[CUOTAS] <= 1).any(axis=1)
-d = d[~mal]
-informe["Cuotas vacías o <= 1 (filas eliminadas)"] = int(mal.sum())
+# 4. Cuotas: una cuota <= 1 es un error y se elimina; un vacío se conserva y se marca
+invalidas = (d[CUOTAS] <= 1).any(axis=1)
+informe["Cuotas <= 1 (filas eliminadas)"] = int(invalidas.sum())
+d = d[~invalidas]
 mal = pd.Series(False, index=d.index)
 for casa in ["B365", "PS", "PSC"]:
-    suma = 1 / d[f"{casa}H"] + 1 / d[f"{casa}D"] + 1 / d[f"{casa}A"]
+    cols = [f"{casa}H", f"{casa}D", f"{casa}A"]
+    d[f"cuotas_{casa}_ok"] = d[cols].notna().all(axis=1)
+    informe[f"Partidos sin cuotas {casa} (conservados)"] = int((~d[f"cuotas_{casa}_ok"]).sum())
+    suma = 1 / d[cols[0]] + 1 / d[cols[1]] + 1 / d[cols[2]]
     mal |= (suma < 0.99) | (suma > 1.25)
 informe["Probabilidad implícita fuera de rango (filas eliminadas)"] = int(mal.sum())
 d = d[~mal]

@@ -1,3 +1,5 @@
+gin i
+
 # Guía para crear e iniciar la base de datos
 
 Esta guía explica cómo preparar el entorno, generar el dataset procesado,
@@ -158,7 +160,10 @@ python scripts/load_db.py --replace
 ```
 
 `--replace` elimina únicamente los registros de `partidos_historico`; no
-modifica las tablas de usuarios, modelos, predicciones ni apuestas.
+modifica las tablas de usuarios, modelos, predicciones ni apuestas. Ten en
+cuenta que al volver a insertar se generan nuevos `id_partido`; por tanto,
+puede romper las referencias de predicciones ya guardadas. Úsalo solo antes
+de crear predicciones o cuando también puedas reconstruirlas.
 
 También puedes especificar rutas o el tamaño del lote:
 
@@ -226,6 +231,20 @@ conservarse localmente si se quiere repetir el proceso de generación.
 7. Ejecutar database/connection.py
 8. Ejecutar scripts/load_db.py
 ```
+
+## Variables derivadas para el modelo
+
+La racha, los promedios históricos de goles y los días de descanso no se
+guardan como columnas del partido histórico. Deben calcularse en la etapa de
+ingeniería de variables, usando únicamente partidos anteriores a la fecha de
+cada partido para evitar fuga de información. En consecuencia:
+
+- `partidos_historico` conserva los datos observados del partido y sus cuotas.
+- El pipeline de features debe generar esas variables para entrenamiento y
+  predicción.
+- Si se requiere persistirlas para auditoría, debe crearse una tabla o dataset
+  versionado de features, relacionado con `id_partido`, sin mezclarlas con el
+  resultado posterior del partido.
 
 Para reproducir el dataset, consulta también:
 

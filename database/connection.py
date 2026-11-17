@@ -1,14 +1,17 @@
 import sys
-import os
+from pathlib import Path
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 # Permite importar models independientemente de dónde se ejecute el script
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+DATABASE_DIR = Path(__file__).resolve().parent
+PROJECT_ROOT = DATABASE_DIR.parent
+sys.path.append(str(DATABASE_DIR))
 from models import Base
 
 # Ruta del archivo SQLite en la raíz del proyecto
-DATABASE_URL = "sqlite:///./kellytix.db"
+DATABASE_PATH = PROJECT_ROOT / "kellytix.db"
+DATABASE_URL = f"sqlite:///{DATABASE_PATH}"
 
 engine = create_engine(
     DATABASE_URL, 
@@ -31,7 +34,6 @@ def init_db():
 
 if __name__ == "__main__":
     init_db()
-
 
 
 

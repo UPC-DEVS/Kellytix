@@ -1,4 +1,14 @@
-from sqlalchemy import Column, Integer, String, Numeric, DateTime, Date, Boolean, ForeignKey
+from sqlalchemy import (
+    Boolean,
+    Column,
+    Date,
+    DateTime,
+    ForeignKey,
+    Integer,
+    Numeric,
+    String,
+    UniqueConstraint,
+)
 from sqlalchemy.orm import declarative_base, relationship
 from datetime import datetime
 
@@ -23,6 +33,15 @@ class Usuario(Base):
 # 2. TABLA DE PARTIDOS HISTÓRICOS (37 Columnas del Dataset Procesado)
 class PartidoHistorico(Base):
     __tablename__ = 'partidos_historico'
+    __table_args__ = (
+        UniqueConstraint(
+            'liga',
+            'fecha',
+            'equipo_local',
+            'equipo_visitante',
+            name='uq_partido_historico_clave',
+        ),
+    )
 
     id_partido = Column(Integer, primary_key=True, autoincrement=True)
     liga = Column(String(10), nullable=False)

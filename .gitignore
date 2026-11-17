@@ -1,6 +1,34 @@
+# Entornos virtuales
 venv/
+.venv/
+env/
+
+# Variables de entorno y secretos
 .env
+
+# Archivos y carpetas de datos locales (CSV procesados y raw)
 data/raw/
+data/processed/
+
+# Base de datos local SQLite (¡CRÍTICO!)
+*.db
+*.sqlite
+*.sqlite3
+
+kellytix.db
+
+# Modelos entrenados de ML
+*.pkl
+
+# Caché de Python
 __pycache__/
 *.pyc
-data/processed/
+*.pyo
+
+# Configuraciones de IDE / Editor
+.vscode/
+.idea/
+*.swp
+
+# Pruebas
+.pytest_cache/

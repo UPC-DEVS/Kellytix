@@ -5,10 +5,53 @@ import pandas as pd
 LIGAS = ["E0", "SP1", "I1", "D1", "F1"]
 COLS_CUOTAS = ["B365H", "B365D", "B365A", "PSH", "PSD", "PSA", "PSCH", "PSCD", "PSCA"]
 
+RENOMBRES_MATCHES = {
+    "Division": "division_name",
+    "MatchDate": "match_date",
+    "MatchTime": "match_time",
+    "HomeTeam": "home_team",
+    "AwayTeam": "away_team",
+    "HomeElo": "home_elo",
+    "AwayElo": "away_elo",
+    "Form3Home": "home_form3",
+    "Form5Home": "home_form5",
+    "Form3Away": "away_form3",
+    "Form5Away": "away_form5",
+    "FTHome": "ft_home_goals",
+    "FTAway": "ft_away_goals",
+    "FTResult": "ft_result",
+    "HTHome": "ht_home_goals",
+    "HTAway": "ht_away_goals",
+    "HTResult": "ht_result",
+    "HomeShots": "home_shots",
+    "AwayShots": "away_shots",
+    "HomeTarget": "home_target",
+    "AwayTarget": "away_target",
+    "HomeFouls": "home_fouls",
+    "AwayFouls": "away_fouls",
+    "HomeCorners": "home_corners",
+    "AwayCorners": "away_corners",
+    "HomeYellow": "home_yellow",
+    "AwayYellow": "away_yellow",
+    "HomeRed": "home_red",
+    "AwayRed": "away_red",
+}
+
+
 def clave(s):
     return re.sub(r"[^a-z0-9]", "", str(s).lower())
 
-m = pd.read_csv("data/raw/Matches.csv", low_memory=False)
+def renombrar_matches(df):
+    df.columns = df.columns.str.replace("\ufeff", "", regex=False).str.strip()
+    df = df.rename(columns=RENOMBRES_MATCHES)
+    requeridas = {"division_name", "match_date", "home_team", "away_team"}
+    faltantes = requeridas - set(df.columns)
+    if faltantes:
+        raise ValueError(f"Faltan columnas en Matches.csv: {', '.join(sorted(faltantes))}")
+    return df
+
+
+m = renombrar_matches(pd.read_csv("data/raw/Matches.csv", low_memory=False))
 m["match_date"] = pd.to_datetime(m["match_date"])
 m = m[m.division_name.isin(LIGAS) & (m.match_date >= "2018-07-01")].copy()
 m["k_local"] = m.home_team.map(clave)

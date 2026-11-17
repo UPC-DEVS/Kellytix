@@ -80,9 +80,9 @@ informe["Tiros a puerta > tiros (corregidos)"] = corregidos
 d = d.sort_values(["match_date", "division_name", "home_team"]).reset_index(drop=True)
 largo = pd.concat([
     pd.DataFrame({"i": d.index, "lado": "home", "equipo": d.home_team,
-                  "fecha": d.match_date, "elo": d.home_elo}),
+                "fecha": d.match_date, "elo": d.home_elo}),
     pd.DataFrame({"i": d.index, "lado": "away", "equipo": d.away_team,
-                  "fecha": d.match_date, "elo": d.away_elo}),
+                "fecha": d.match_date, "elo": d.away_elo}),
 ]).sort_values(["equipo", "fecha", "i"])
 informe["Elo vacíos (valores)"] = int(largo.elo.isna().sum())
 largo["elo"] = largo.groupby("equipo")["elo"].ffill()

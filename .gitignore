@@ -14,6 +14,7 @@ data/processed/
 *.db
 *.sqlite
 *.sqlite3
+
 kellytix.db
 
 # Modelos entrenados de ML

@@ -12,6 +12,14 @@ SALIDA = Path("data/processed/features.csv")
 VENTANA = 5          # partidos previos que se miran
 TOPE_DESCANSO = 30   # un descanso mayor a 30 dias se trata como 30 (parón de verano)
 NUEVAS = ["puntos_ult5", "goles_favor_ult5", "goles_contra_ult5", "dias_descanso"]
+RENOMBRES = {
+    "MatchDate": "match_date",
+    "HomeTeam": "home_team",
+    "AwayTeam": "away_team",
+    "FTHome": "ft_home_goals",
+    "FTAway": "ft_away_goals",
+    "FTResult": "ft_result",
+}
 
 
 def clave(s):
@@ -22,6 +30,8 @@ inicio = time.time()
 
 # 1. Historial completo (todas las divisiones, desde el año 2000)
 h = pd.read_csv(HISTORIAL, low_memory=False)
+h.columns = h.columns.str.replace("\ufeff", "", regex=False).str.strip()
+h = h.rename(columns=RENOMBRES)
 necesarias = ["match_date", "home_team", "away_team", "ft_home_goals", "ft_away_goals", "ft_result"]
 faltan = [c for c in necesarias if c not in h.columns]
 assert not faltan, f"Faltan columnas en {HISTORIAL}: {faltan}"
@@ -37,9 +47,9 @@ pts_local = np.select([h.ft_result == "H", h.ft_result == "D"], [3, 1], default=
 pts_visit = np.select([h.ft_result == "A", h.ft_result == "D"], [3, 1], default=0)
 largo = pd.concat([
     pd.DataFrame({"id": h.id, "lado": "local", "equipo": h.k_local, "fecha": h.match_date,
-                  "gf": h.ft_home_goals, "gc": h.ft_away_goals, "pts": pts_local}),
+                    "gf": h.ft_home_goals, "gc": h.ft_away_goals, "pts": pts_local}),
     pd.DataFrame({"id": h.id, "lado": "visitante", "equipo": h.k_visit, "fecha": h.match_date,
-                  "gf": h.ft_away_goals, "gc": h.ft_home_goals, "pts": pts_visit}),
+                    "gf": h.ft_away_goals, "gc": h.ft_home_goals, "pts": pts_visit}),
 ]).sort_values(["equipo", "fecha", "id"]).reset_index(drop=True)
 
 # 3. Variables: solo con partidos ANTERIORES (shift(1) deja fuera el partido actual)

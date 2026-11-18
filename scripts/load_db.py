@@ -16,8 +16,7 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 from database.models import Base, PartidoHistorico  # noqa: E402
 
-
-DEFAULT_CSV = PROJECT_ROOT / "data" / "processed" / "clean_data.csv"
+DEFAULT_CSV = PROJECT_ROOT / "data" / "processed" / "features.csv"
 DEFAULT_DATABASE = PROJECT_ROOT / "kellytix.db"
 
 COLUMNAS = {
@@ -32,6 +31,14 @@ COLUMNAS = {
     "forma5_local": ("home_form5", "form5_home", "forma5_local"),
     "forma3_visitante": ("away_form3", "form3_away", "forma3_visitante"),
     "forma5_visitante": ("away_form5", "form5_away", "forma5_visitante"),
+    "puntos_ult5_local": ("puntos_ult5_local",),
+    "goles_favor_ult5_local": ("goles_favor_ult5_local",),
+    "goles_contra_ult5_local": ("goles_contra_ult5_local",),
+    "dias_descanso_local": ("dias_descanso_local",),
+    "puntos_ult5_visitante": ("puntos_ult5_visitante",),
+    "goles_favor_ult5_visitante": ("goles_favor_ult5_visitante",),
+    "goles_contra_ult5_visitante": ("goles_contra_ult5_visitante",),
+    "dias_descanso_visitante": ("dias_descanso_visitante",),
     "goles_local": ("ft_home_goals", "home_goals", "goles_local"),
     "goles_visitante": ("ft_away_goals", "away_goals", "goles_visitante"),
     "resultado_final": ("ft_result", "result", "resultado_final"),

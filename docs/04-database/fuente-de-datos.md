@@ -72,8 +72,7 @@ El margen de Pinnacle al cierre (2,69%) es el costo mínimo que un modelo debe s
 - No hay cuotas de córneres ni de tarjetas, por lo que el nicho (RF-06) se puede explorar con estadísticas, pero no evaluar con EV.
 - No hay datos de árbitro.
 - Los datos llegan hasta mayo de 2025. Los zips de 2025/26 se descargaron, pero no tienen Elo ni forma.
-- Elo y forma los calculó el autor del dataset y su método no está verificado. Pendiente: confirmar que no incluyen el resultado del propio partido (fuga de datos).
-- Los goles finales, tiros, córneres, faltas y tarjetas de un partido solo se conocen después de jugarlo. No se pueden usar como variables para predecirlo; solo como resultado o para calcular promedios de partidos anteriores.
+- Elo y forma los calculó el autor del dataset. Auditoría (tarjeta 1.10): la forma coincide con los puntos de los 3 o 5 partidos anteriores recalculados desde los resultados (99,9%), y el Elo se relaciona con el resultado del partido anterior (correlación 0,36) y no con el del propio partido (0,03), por lo que son variables previas al partido. Excepción: siete filas del Nott'm Forest y el M'gladbach traen forma 0 por pérdida de historial al cambiar la escritura del nombre; features.csv las recalcula.
 
 ## 8. Licencia y uso
 
@@ -85,6 +84,6 @@ El margen de Pinnacle al cierre (2,69%) es el costo mínimo que un modelo debe s
 ## 9. Cómo reproducir el dataset
 
 1. Descargar `Matches.csv` y guardarlo en `data/raw/`.
-2. Descargar a mano los zips de football-data.co.uk (`mmz4281/AAAA/data.zip`) de 2018/19 a 2025/26 y descomprimirlos en `data/raw/odds/<temporada>/` (por ejemplo `data/raw/odds/2324/`).
-3. Con el entorno virtual activo, ejecutar `python scripts/crear_dataset.py`.
+3. Con el entorno virtual activo, ejecutar en este orden: `python scripts/crear_dataset.py`, `python scripts/clean_data.py` y `python scripts/build_features.py` (genera `data/processed/features.csv`).
+4. Comprobar el dataset unido con `python scripts/verificar_dataset.py`.
 4. Comprobar el resultado con `python scripts/verificar_dataset.py`.

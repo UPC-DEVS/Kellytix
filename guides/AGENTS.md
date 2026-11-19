@@ -14,7 +14,7 @@ source venv/bin/activate             # Windows: venv\Scripts\activate
 python -m pip install -r requirements.txt
 ```
 
-The documented data workflow is `python scripts/crear_dataset.py`, `python scripts/clean_data.py`, then `python scripts/verificar_dataset.py`. Initialize the local database with `python database/connection.py`, then load cleaned records using `python scripts/load_db.py`. Use `--help` on a script for supported options; `load_db.py --replace` replaces historical match rows and can invalidate prediction references.
+The documented data workflow is `python scripts/crear-dataset.py`, `python scripts/clean-data.py`, then `python scripts/verificar-dataset.py`. Initialize the local database with `python database/connection.py`, then load cleaned records using `python scripts/load-db.py`. Use `--help` on a script for supported options; `load-db.py --replace` replaces historical match rows and can invalidate prediction references.
 
 ## Coding Style & Naming Conventions
 

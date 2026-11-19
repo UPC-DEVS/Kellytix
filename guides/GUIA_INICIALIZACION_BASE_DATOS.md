@@ -54,10 +54,10 @@ Las dependencias principales para esta guía son `pandas` y `SQLAlchemy`.
 
 ## 4. Preparar los datos de entrada
 
-Descarga manualmente `Matches.csv` y guárdalo en:
+Descarga manualmente `matches.csv` y guárdalo en:
 
 ```text
-data/raw/Matches.csv
+data/raw/matches.csv
 ```
 
 Descarga también los archivos de cuotas de football-data.co.uk de las
@@ -76,7 +76,7 @@ data/raw/odds/2324/SP1.csv
 
 El dataset utilizado por Kellytix combina:
 
-- Resultados, equipos, Elo, forma y estadísticas de `Matches.csv`.
+- Resultados, equipos, Elo, forma y estadísticas de `matches.csv`.
 - Cuotas 1X2 de Bet365 y Pinnacle.
 - Las ligas `E0`, `SP1`, `I1`, `D1` y `F1`.
 - Partidos desde julio de 2018.
@@ -86,13 +86,13 @@ El dataset utilizado por Kellytix combina:
 Ejecuta:
 
 ```bash
-python scripts/crear_dataset.py
+python scripts/crear-dataset.py
 ```
 
 Este script cruza los partidos con las cuotas y genera:
 
 ```text
-data/processed/matches_con_cuotas.csv
+data/processed/matches-con-cuotas.csv
 ```
 
 ## 6. Limpiar y validar el dataset
@@ -100,19 +100,19 @@ data/processed/matches_con_cuotas.csv
 Ejecuta el proceso de limpieza:
 
 ```bash
-python scripts/clean_data.py
+python scripts/clean-data.py
 ```
 
 El resultado se guarda en:
 
 ```text
-data/processed/clean_data.csv
+data/processed/clean-data.csv
 ```
 
 Después puedes comprobar el dataset unido con:
 
 ```bash
-python scripts/verificar_dataset.py
+python scripts/verificar-dataset.py
 ```
 
 La limpieza elimina o corrige datos inválidos, unifica nombres de equipos,
@@ -122,7 +122,7 @@ del equipo cuando es posible.
 Luego genera las variables derivadas sin usar resultados futuros:
 
 ```bash
-python scripts/build_features.py
+python scripts/build-features.py
 ```
 
 Este proceso crea `data/processed/features.csv` con puntos de los últimos cinco
@@ -151,12 +151,12 @@ Esto crea `kellytix.db` en la raíz del proyecto con las tablas definidas en
 Carga el dataset limpio en `partidos_historico`:
 
 ```bash
-python scripts/load_db.py
+python scripts/load-db.py
 ```
 
 El script:
 
-- Lee `data/processed/clean_data.csv`.
+- Lee `data/processed/features.csv`.
 - Valida las columnas obligatorias.
 - Convierte fechas y valores numéricos.
 - Inserta los datos por lotes usando SQLAlchemy.
@@ -166,7 +166,7 @@ El script:
 Si necesitas reconstruir completamente la tabla de partidos:
 
 ```bash
-python scripts/load_db.py --replace
+python scripts/load-db.py --replace
 ```
 
 `--replace` elimina únicamente los registros de `partidos_historico`; no
@@ -178,8 +178,8 @@ de crear predicciones o cuando también puedas reconstruirlas.
 También puedes especificar rutas o el tamaño del lote:
 
 ```bash
-python scripts/load_db.py \
-  --csv data/processed/clean_data.csv \
+python scripts/load-db.py \
+  --csv data/processed/features.csv \
   --database kellytix.db \
   --batch-size 1000
 ```
@@ -214,7 +214,7 @@ local de SQLite y repite los pasos de inicialización y carga:
 ```bash
 rm kellytix.db
 python database/connection.py
-python scripts/load_db.py
+python scripts/load-db.py
 ```
 
 En Windows:
@@ -222,7 +222,7 @@ En Windows:
 ```powershell
 Remove-Item kellytix.db
 python database/connection.py
-python scripts/load_db.py
+python scripts/load-db.py
 ```
 
 No elimines las carpetas del repositorio ni los archivos fuente. Los CSV de
@@ -234,13 +234,13 @@ conservarse localmente si se quiere repetir el proceso de generación.
 ```text
 1. Activar .venv
 2. Instalar requirements.txt
-3. Colocar Matches.csv y las cuotas en data/raw/
-4. Ejecutar scripts/crear_dataset.py
-5. Ejecutar scripts/clean_data.py
-6. Ejecutar scripts/verificar_dataset.py
+3. Colocar matches.csv y las cuotas en data/raw/
+4. Ejecutar scripts/crear-dataset.py
+5. Ejecutar scripts/clean-data.py
+6. Ejecutar scripts/verificar-dataset.py
 7. Ejecutar database/connection.py
-8. Ejecutar scripts/build_features.py
-9. Ejecutar scripts/load_db.py
+8. Ejecutar scripts/build-features.py
+9. Ejecutar scripts/load-db.py
 ```
 
 ## Variables derivadas para el modelo

@@ -5,8 +5,8 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-HISTORIAL = Path("data/raw/Matches.csv")
-LIMPIO = Path("data/processed/clean_data.csv")
+HISTORIAL = Path("data/raw/matches.csv")
+LIMPIO = Path("data/processed/clean-data.csv")
 SALIDA = Path("data/processed/features.csv")
 
 VENTANA = 5          # partidos previos que se miran
@@ -28,7 +28,7 @@ def clave(s):
 
 inicio = time.time()
 
-# 1. Historial: Matches.csv (desde el año 2000) + partidos nuevos del dataset limpio
+# 1. Historial: matches.csv (desde el año 2000) + partidos nuevos del dataset limpio
 necesarias = ["match_date", "home_team", "away_team", "ft_home_goals", "ft_away_goals", "ft_result"]
 h = pd.read_csv(HISTORIAL, low_memory=False)
 h.columns = h.columns.str.replace("\ufeff", "", regex=False).str.strip()
@@ -41,7 +41,7 @@ h = pd.concat([h[necesarias], d[necesarias]], ignore_index=True).dropna()
 h["match_date"] = pd.to_datetime(h["match_date"])
 h["k_local"] = h.home_team.map(clave)
 h["k_visit"] = h.away_team.map(clave)
-h = h.drop_duplicates(["match_date", "k_local", "k_visit"])  # si se repite, vale Matches.csv
+h = h.drop_duplicates(["match_date", "k_local", "k_visit"])  # si se repite, vale matches.csv
 h = h.sort_values(["match_date", "k_local"]).reset_index(drop=True)
 h["id"] = h.index
 

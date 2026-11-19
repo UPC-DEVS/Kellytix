@@ -14,10 +14,10 @@ El equipo usa datos históricos en CSV en lugar de una API deportiva. Motivos:
 
 | Fuente | Qué aporta | Cómo se obtuvo |
 |---|---|---|
-| Club Football Match Data 2000-2025 (Gábor, A., 2025). Repositorio: github.com/xgabora/Club-Football-Match-Data-2000-2025 | Resultados, Elo, forma y estadísticas de partido (`Matches.csv`) | El archivo se tomó de la copia del repositorio szabilukacs/Football-project, cuyo README indica que sus datos provienen de este dataset |
+| Club Football Match Data 2000-2025 (Gábor, A., 2025). Repositorio: github.com/xgabora/Club-Football-Match-Data-2000-2025 | Resultados, Elo, forma y estadísticas de partido (`matches.csv`) | El archivo se tomó de la copia del repositorio szabilukacs/Football-project, cuyo README indica que sus datos provienen de este dataset |
 | football-data.co.uk | Cuotas de casas de apuestas por partido | Descarga manual de los zips por temporada (`data.zip`), de 2018/19 a 2025/26 |
 
-## 3. Contenido de `Matches.csv`
+## 3. Contenido de `matches.csv`
 
 - 230.554 partidos entre el 28/07/2000 y el 01/06/2025, de 38 divisiones.
 - 28 columnas: división, fecha, equipos, Elo local y visitante, forma de los últimos 3 y 5 partidos, goles al final y al medio tiempo, resultado, tiros, tiros a puerta, faltas, córneres, tarjetas amarillas y rojas.
@@ -40,14 +40,14 @@ Se filtraron las cinco grandes ligas (E0 Premier League, SP1 La Liga, I1 Serie A
 
 ## 4b. Partidos de 2025/26
 
-Matches.csv termina en junio de 2025. Los partidos posteriores se añaden desde los archivos de football-data.co.uk: 1.753 partidos (D1 306, E0 380, F1 307, I1 380, SP1 380), de los cuales 1.752 son de 2025/26 y uno es un partido de la Ligue 1 de 2024/25 entre el Paris SG y el Monaco que falta en Matches.csv. Traen resultado, estadísticas (tiros, córneres, tarjetas) y cuotas de Bet365. No traen Elo ni forma del dataset original: el Elo queda vacío en esas filas hasta calcular uno propio, y la forma se sustituye por las variables calculadas desde los resultados. Total: 14.285 partidos.
+matches.csv termina en junio de 2025. Los partidos posteriores se añaden desde los archivos de football-data.co.uk: 1.753 partidos (D1 306, E0 380, F1 307, I1 380, SP1 380), de los cuales 1.752 son de 2025/26 y uno es un partido de la Ligue 1 de 2024/25 entre el Paris SG y el Monaco que falta en matches.csv. Traen resultado, estadísticas (tiros, córneres, tarjetas) y cuotas de Bet365. No traen Elo ni forma del dataset original: el Elo queda vacío en esas filas hasta calcular uno propio, y la forma se sustituye por las variables calculadas desde los resultados. Total: 14.285 partidos.
 
 ## 5. Unión con las cuotas
 
 - Clave de unión: división, fecha y equipos local y visitante, con los nombres normalizados (minúsculas y sin símbolos).
 - Sin normalizar, la unión daba 96,5% en E0 y 89,8% en D1. La diferencia venía de dos nombres escritos distinto en cada fuente: MGladbach y Nottm Forest.
 - Con los nombres normalizados: 14.285 de 14.285 partidos con cuotas (100% en las cinco ligas), sin duplicados y sin filas sin cruzar.
-- Archivo resultante: `data/processed/matches_con_cuotas.csv`, con 37 columnas: las 28 de `Matches.csv` más 9 de cuotas.
+- Archivo resultante: `data/processed/matches-con-cuotas.csv`, con 37 columnas: las 28 de `matches.csv` más 9 de cuotas.
 
 Columnas de cuotas incluidas:
 
@@ -88,7 +88,7 @@ El margen de Pinnacle al cierre (2,69%) es el costo mínimo que un modelo debe s
 
 ## 9. Cómo reproducir el dataset
 
-1. Descargar `Matches.csv` y guardarlo en `data/raw/`.
-3. Con el entorno virtual activo, ejecutar en este orden: `python scripts/crear_dataset.py`, `python scripts/clean_data.py` y `python scripts/build_features.py` (genera `data/processed/features.csv`).
-4. Comprobar el dataset unido con `python scripts/verificar_dataset.py`.
-4. Comprobar el resultado con `python scripts/verificar_dataset.py`.
+1. Descargar `matches.csv` y guardarlo en `data/raw/`.
+3. Con el entorno virtual activo, ejecutar en este orden: `python scripts/crear-dataset.py`, `python scripts/clean-data.py` y `python scripts/build-features.py` (genera `data/processed/features.csv`).
+4. Comprobar el dataset unido con `python scripts/verificar-dataset.py`.
+5. Comprobar el resultado con `python scripts/verificar-dataset.py`.

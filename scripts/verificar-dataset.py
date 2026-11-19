@@ -1,6 +1,6 @@
 import pandas as pd
 
-d = pd.read_csv("data/processed/matches_con_cuotas.csv", parse_dates=["match_date"])
+d = pd.read_csv("data/processed/matches-con-cuotas.csv", parse_dates=["match_date"])
 print(d.shape, d.match_date.min().date(), d.match_date.max().date())
 print(d[["B365H", "B365D", "B365A", "PSCH", "PSCD", "PSCA"]].describe().loc[["min", "max"]])
 

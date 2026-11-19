@@ -62,12 +62,12 @@ def renombrar_matches(df):
     requeridas = {"division_name", "match_date", "home_team", "away_team"}
     faltantes = requeridas - set(df.columns)
     if faltantes:
-        raise ValueError(f"Faltan columnas en Matches.csv: {', '.join(sorted(faltantes))}")
+        raise ValueError(f"Faltan columnas en matches.csv: {', '.join(sorted(faltantes))}")
     return df
 
 
 # 1. Estadísticas del dataset de Gábor (5 grandes ligas desde 2018)
-m = renombrar_matches(pd.read_csv("data/raw/Matches.csv", low_memory=False))
+m = renombrar_matches(pd.read_csv("data/raw/matches.csv", low_memory=False))
 m["match_date"] = pd.to_datetime(m["match_date"])
 m = m[m.division_name.isin(LIGAS) & (m.match_date >= DESDE)].copy()
 m["k_local"] = m.home_team.map(clave)
@@ -141,5 +141,5 @@ cols_pinnacle = ["PSH", "PSD", "PSA", "PSCH", "PSCD", "PSCA"]
 final.loc[final.match_date >= pd.Timestamp("2025-07-23"), cols_pinnacle] = np.nan
 
 Path("data/processed").mkdir(parents=True, exist_ok=True)
-final.to_csv("data/processed/matches_con_cuotas.csv", index=False)
+final.to_csv("data/processed/matches-con-cuotas.csv", index=False)
 print(f"\nGuardado: {final.shape} ({len(union)} del dataset + {len(filas)} de football-data)")

@@ -28,17 +28,20 @@ def clave(s):
 
 inicio = time.time()
 
-# 1. Historial completo (todas las divisiones, desde el año 2000)
+# 1. Historial: Matches.csv (desde el año 2000) + partidos nuevos del dataset limpio
+necesarias = ["match_date", "home_team", "away_team", "ft_home_goals", "ft_away_goals", "ft_result"]
 h = pd.read_csv(HISTORIAL, low_memory=False)
 h.columns = h.columns.str.replace("\ufeff", "", regex=False).str.strip()
 h = h.rename(columns=RENOMBRES)
-necesarias = ["match_date", "home_team", "away_team", "ft_home_goals", "ft_away_goals", "ft_result"]
-faltan = [c for c in necesarias if c not in h.columns]
-assert not faltan, f"Faltan columnas en {HISTORIAL}: {faltan}"
-h = h[necesarias].dropna().copy()
+d = pd.read_csv(LIMPIO, low_memory=False)
+for nombre, tabla in ((HISTORIAL, h), (LIMPIO, d)):
+    faltan = [c for c in necesarias if c not in tabla.columns]
+    assert not faltan, f"Faltan columnas en {nombre}: {faltan}"
+h = pd.concat([h[necesarias], d[necesarias]], ignore_index=True).dropna()
 h["match_date"] = pd.to_datetime(h["match_date"])
 h["k_local"] = h.home_team.map(clave)
 h["k_visit"] = h.away_team.map(clave)
+h = h.drop_duplicates(["match_date", "k_local", "k_visit"])  # si se repite, vale Matches.csv
 h = h.sort_values(["match_date", "k_local"]).reset_index(drop=True)
 h["id"] = h.index
 
@@ -76,7 +79,6 @@ por_partido = pd.concat(partes, axis=1)
 h = h.join(por_partido, on="id")
 
 # 5. Unir con el dataset limpio
-d = pd.read_csv(LIMPIO, low_memory=False)
 filas_limpio = len(d)
 d["match_date"] = pd.to_datetime(d["match_date"])
 d["k_local"] = d.home_team.map(clave)
@@ -99,7 +101,7 @@ if sin.any():
 
 print("\nControl contra la forma del dataset (puntos de los últimos 5 partidos):")
 for lado, col in [("local", "home_form5"), ("visitante", "away_form5")]:
-    comp = d[f"puntos_ult5_{lado}"].notna()
+    comp = d[f"puntos_ult5_{lado}"].notna() & d[col].notna()
     iguales = (d.loc[comp, f"puntos_ult5_{lado}"] == d.loc[comp, col]).mean() * 100
     print(f"- {lado}: coincide en {iguales:.2f}% de {int(comp.sum())} partidos")
 

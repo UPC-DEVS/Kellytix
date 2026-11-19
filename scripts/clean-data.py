@@ -76,21 +76,25 @@ for lado in ["home", "away"]:
     d.loc[mal, f"{lado}_shots"] = d.loc[mal, f"{lado}_target"]
 informe["Tiros a puerta > tiros (corregidos)"] = corregidos
 
-# 6. Elo vacío: se rellena con el último Elo conocido del mismo equipo
+# 6. Elo vacío: se rellena con el último Elo del mismo equipo solo si es reciente (hasta 21 días)
 d = d.sort_values(["match_date", "division_name", "home_team"]).reset_index(drop=True)
 largo = pd.concat([
     pd.DataFrame({"i": d.index, "lado": "home", "equipo": d.home_team,
-                "fecha": d.match_date, "elo": d.home_elo}),
+                  "fecha": d.match_date, "elo": d.home_elo}),
     pd.DataFrame({"i": d.index, "lado": "away", "equipo": d.away_team,
-                "fecha": d.match_date, "elo": d.away_elo}),
+                  "fecha": d.match_date, "elo": d.away_elo}),
 ]).sort_values(["equipo", "fecha", "i"])
 informe["Elo vacíos (valores)"] = int(largo.elo.isna().sum())
-largo["elo"] = largo.groupby("equipo")["elo"].ffill()
+largo["fecha_elo"] = largo.fecha.where(largo.elo.notna())
+largo["fecha_elo"] = largo.groupby("equipo")["fecha_elo"].ffill()
+largo["elo_previo"] = largo.groupby("equipo")["elo"].ffill()
+rellenar = largo.elo.isna() & ((largo.fecha - largo.fecha_elo).dt.days <= 21)
+largo["elo"] = largo.elo.where(~rellenar, largo.elo_previo)
+informe["Elo rellenados (huecos cortos)"] = int(rellenar.sum())
 d["home_elo"] = largo[largo.lado == "home"].set_index("i")["elo"]
 d["away_elo"] = largo[largo.lado == "away"].set_index("i")["elo"]
 sin_elo = d.home_elo.isna() | d.away_elo.isna()
-informe["Elo sin valor previo (filas eliminadas)"] = int(sin_elo.sum())
-d = d[~sin_elo].reset_index(drop=True)
+informe["Partidos con Elo vacío (se conservan)"] = int(sin_elo.sum())
 
 # 7. Informe y guardado
 print("INFORME DE CALIDAD")

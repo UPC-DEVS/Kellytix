@@ -38,11 +38,15 @@ Se filtraron las cinco grandes ligas (E0 Premier League, SP1 La Liga, I1 Serie A
 | D1 | 2.142 |
 | **Total** | **12.532** |
 
+## 4b. Partidos de 2025/26
+
+matches.csv termina en junio de 2025. Los partidos posteriores se añaden desde los archivos de football-data.co.uk: 1.753 partidos (D1 306, E0 380, F1 307, I1 380, SP1 380), de los cuales 1.752 son de 2025/26 y uno es un partido de la Ligue 1 de 2024/25 entre el Paris SG y el Monaco que falta en matches.csv. Traen resultado, estadísticas (tiros, córneres, tarjetas) y cuotas de Bet365. No traen Elo ni forma del dataset original: el Elo queda vacío en esas filas hasta calcular uno propio, y la forma se sustituye por las variables calculadas desde los resultados. Total: 14.285 partidos.
+
 ## 5. Unión con las cuotas
 
 - Clave de unión: división, fecha y equipos local y visitante, con los nombres normalizados (minúsculas y sin símbolos).
 - Sin normalizar, la unión daba 96,5% en E0 y 89,8% en D1. La diferencia venía de dos nombres escritos distinto en cada fuente: MGladbach y Nottm Forest.
-- Con los nombres normalizados: 12.532 de 12.532 partidos con cuotas (100% en las cinco ligas), sin duplicados y sin filas sin cruzar.
+- Con los nombres normalizados: 14.285 de 14.285 partidos con cuotas (100% en las cinco ligas), sin duplicados y sin filas sin cruzar.
 - Archivo resultante: `data/processed/matches-con-cuotas.csv`, con 37 columnas: las 28 de `matches.csv` más 9 de cuotas.
 
 Columnas de cuotas incluidas:
@@ -59,7 +63,7 @@ Según la nota de football-data.co.uk, desde 2019/20 se recogen dos juegos de cu
 
 | Prueba | Resultado |
 |---|---|
-| Filas y rango de fechas | 12.532 filas, del 10/08/2018 al 25/05/2025 |
+| Filas y rango de fechas | 14.285 filas, del 10/08/2018 al 25/05/2025 |
 | Rango de cuotas | De 1,03 a 51, sin ceros ni valores imposibles |
 | Margen medio de la casa | 5,32% en Bet365; 2,69% en Pinnacle al cierre |
 | Yield apostando siempre al local (Bet365) | −7,8% |
@@ -73,6 +77,7 @@ El margen de Pinnacle al cierre (2,69%) es el costo mínimo que un modelo debe s
 - No hay datos de árbitro.
 - Los datos llegan hasta mayo de 2025. Los zips de 2025/26 se descargaron, pero no tienen Elo ni forma.
 - Elo y forma los calculó el autor del dataset. Auditoría (tarjeta 1.10): la forma coincide con los puntos de los 3 o 5 partidos anteriores recalculados desde los resultados (99,9%), y el Elo se relaciona con el resultado del partido anterior (correlación 0,36) y no con el del propio partido (0,03), por lo que son variables previas al partido. Excepción: siete filas del Nott'm Forest y el M'gladbach traen forma 0 por pérdida de historial al cambiar la escritura del nombre; features.csv las recalcula.
+- Cuotas de Pinnacle: football-data.co.uk avisa de que desde el 23/07/2025 la API de Pinnacle es poco fiable (cuotas desactualizadas), y en nuestros archivos faltan por completo desde mediados de enero de 2026. Por eso las cuotas de Pinnacle se anulan en los partidos desde el 23/07/2025 (1.762 partidos sin Pinnacle y 1.753 sin Pinnacle al cierre) y las simulaciones de 2025/26 usan solo Bet365. La referencia de mercado de Pinnacle al cierre (margen medio de 2,69%) se calculó con partidos hasta 2024/25.
 
 ## 8. Licencia y uso
 

@@ -136,7 +136,9 @@ print(filas.groupby("division_name").size().to_string())
 final = pd.concat([union, filas], ignore_index=True)[list(union.columns)]
 final = final.sort_values(["match_date", "division_name", "home_team"]).reset_index(drop=True)
 
-
+# Pinnacle: desde el 23/07/2025 sus cuotas no son fiables (aviso de football-data.co.uk)
+cols_pinnacle = ["PSH", "PSD", "PSA", "PSCH", "PSCD", "PSCA"]
+final.loc[final.match_date >= pd.Timestamp("2025-07-23"), cols_pinnacle] = np.nan
 
 Path("data/processed").mkdir(parents=True, exist_ok=True)
 final.to_csv("data/processed/matches_con_cuotas.csv", index=False)

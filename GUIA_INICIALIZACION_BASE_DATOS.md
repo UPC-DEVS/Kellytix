@@ -119,6 +119,16 @@ La limpieza elimina o corrige datos inválidos, unifica nombres de equipos,
 valida cuotas y resultados, y completa Elo usando el último valor conocido
 del equipo cuando es posible.
 
+Luego genera las variables derivadas sin usar resultados futuros:
+
+```bash
+python scripts/build_features.py
+```
+
+Este proceso crea `data/processed/features.csv` con puntos de los últimos cinco
+partidos, goles a favor y en contra y días de descanso, tanto para el equipo
+local como para el visitante.
+
 ## 7. Crear la base de datos SQLite
 
 Inicializa las tablas ejecutando:
@@ -229,7 +239,8 @@ conservarse localmente si se quiere repetir el proceso de generación.
 5. Ejecutar scripts/clean_data.py
 6. Ejecutar scripts/verificar_dataset.py
 7. Ejecutar database/connection.py
-8. Ejecutar scripts/load_db.py
+8. Ejecutar scripts/build_features.py
+9. Ejecutar scripts/load_db.py
 ```
 
 ## Variables derivadas para el modelo

@@ -5,8 +5,8 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-HISTORIAL = Path("data/raw/Matches.csv")
-LIMPIO = Path("data/processed/clean_data.csv")
+HISTORIAL = Path("data/raw/matches.csv")
+LIMPIO = Path("data/processed/clean-data.csv")
 SALIDA = Path("data/processed/features.csv")
 
 VENTANA = 5          # partidos previos que se miran

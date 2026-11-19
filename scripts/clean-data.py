@@ -4,8 +4,8 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-ENTRADA = Path("data/processed/matches_con_cuotas.csv")
-SALIDA = Path("data/processed/clean_data.csv")
+ENTRADA = Path("data/processed/matches-con-cuotas.csv")
+SALIDA = Path("data/processed/clean-data.csv")
 
 # Equipos que aparecen escritos de dos formas distintas en el dataset.
 CANONICOS = {"MGladbach": "M'gladbach", "Nottm Forest": "Nott'm Forest"}

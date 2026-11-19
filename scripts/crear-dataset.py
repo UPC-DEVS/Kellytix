@@ -47,11 +47,11 @@ def renombrar_matches(df):
     requeridas = {"division_name", "match_date", "home_team", "away_team"}
     faltantes = requeridas - set(df.columns)
     if faltantes:
-        raise ValueError(f"Faltan columnas en Matches.csv: {', '.join(sorted(faltantes))}")
+        raise ValueError(f"Faltan columnas en matches.csv: {', '.join(sorted(faltantes))}")
     return df
 
 
-m = renombrar_matches(pd.read_csv("data/raw/Matches.csv", low_memory=False))
+m = renombrar_matches(pd.read_csv("data/raw/matches.csv", low_memory=False))
 m["match_date"] = pd.to_datetime(m["match_date"])
 m = m[m.division_name.isin(LIGAS) & (m.match_date >= "2018-07-01")].copy()
 m["k_local"] = m.home_team.map(clave)
@@ -89,5 +89,5 @@ print("\nSin cruce:", (union["_merge"] != "both").sum())
 
 union = union[union["_merge"] == "both"].drop(columns=["Date", "k_local", "k_visit", "_merge"])
 Path("data/processed").mkdir(parents=True, exist_ok=True)
-union.to_csv("data/processed/matches_con_cuotas.csv", index=False)
+union.to_csv("data/processed/matches-con-cuotas.csv", index=False)
 print("\nGuardado:", union.shape)

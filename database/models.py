@@ -57,6 +57,14 @@ class PartidoHistorico(Base):
     forma5_local = Column(Integer, nullable=True)
     forma3_visitante = Column(Integer, nullable=True)
     forma5_visitante = Column(Integer, nullable=True)
+    puntos_ult5_local = Column(Numeric(5, 2), nullable=True)
+    goles_favor_ult5_local = Column(Numeric(5, 2), nullable=True)
+    goles_contra_ult5_local = Column(Numeric(5, 2), nullable=True)
+    dias_descanso_local = Column(Integer, nullable=True)
+    puntos_ult5_visitante = Column(Numeric(5, 2), nullable=True)
+    goles_favor_ult5_visitante = Column(Numeric(5, 2), nullable=True)
+    goles_contra_ult5_visitante = Column(Numeric(5, 2), nullable=True)
+    dias_descanso_visitante = Column(Integer, nullable=True)
 
     # Marcador final y al descanso
     goles_local = Column(Integer, nullable=False)

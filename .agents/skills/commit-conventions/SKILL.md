@@ -1,11 +1,8 @@
 ---
-
 name: commit-conventions
 
 description: Apply the team's commit message conventions whenever creating, suggesting, reviewing, or correcting Git commits.
-
 ---
-
 # Commit Conventions
 
 ## Standard
@@ -180,9 +177,11 @@ docs(readme): Updated installation instructions
 When suggesting a commit, present the result in a copy-friendly code block.
 
 Example:
+
 ```
 feat(auth): add user registration
 ```
+
 If additional explanation is necessary, provide it separately and keep it concise.
 
 ## Execution Rules

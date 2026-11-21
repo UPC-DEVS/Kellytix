@@ -42,6 +42,14 @@ Se filtraron las cinco grandes ligas (E0 Premier League, SP1 La Liga, I1 Serie A
 
 matches.csv termina en junio de 2025. Los partidos posteriores se añaden desde los archivos de football-data.co.uk: 1.753 partidos (D1 306, E0 380, F1 307, I1 380, SP1 380), de los cuales 1.752 son de 2025/26 y uno es un partido de la Ligue 1 de 2024/25 entre el Paris SG y el Monaco que falta en matches.csv. Traen resultado, estadísticas (tiros, córneres, tarjetas) y cuotas de Bet365. No traen Elo ni forma del dataset original: el Elo queda vacío en esas filas hasta calcular uno propio, y la forma se sustituye por las variables calculadas desde los resultados. Total: 14.285 partidos.
 
+## 4c. Elo propio
+
+Los partidos de 2025/26 no traen el Elo del dataset original. Para tener una sola definición en entrenamiento y prueba, y poder calcularlo en partidos futuros, `scripts/calcular-elo.py` calcula un Elo propio desde los resultados. Procesa en orden cronológico todos los partidos de `matches.csv` y los partidos nuevos, con rating inicial 1500, K de 12, ventaja de local de 50 puntos y un multiplicador por diferencia de goles (1 hasta un gol, 1,5 con dos y (11 + diferencia) / 8 desde tres). Cada fila guarda el rating previo al partido (`elo_propio_local` y `elo_propio_visitante`), sin usar el resultado del propio partido.
+
+Los parámetros se eligieron probando K entre 5 y 20 y ventaja de local entre 40 y 70 en las cinco ligas desde 2018; la regresión entre temporadas empeoró el resultado y se descartó. Validación: correlación de 0,94 con el Elo del dataset y error de predicción (Brier) de 0,1545 frente a 0,1538 del dataset (0,1867 sin información).
+
+Limitaciones: solo cuenta partidos de liga (sin copas ni competiciones europeas) y el rating de un equipo ascendido arrastra el de su división anterior.
+
 ## 5. Unión con las cuotas
 
 - Clave de unión: división, fecha y equipos local y visitante, con los nombres normalizados (minúsculas y sin símbolos).

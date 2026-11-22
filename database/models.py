@@ -101,6 +101,7 @@ class PartidoHistorico(Base):
 
     # Relación con predicciones
     predicciones = relationship("PrediccionLog", back_populates="partido")
+    features = relationship("PartidoFeatures", back_populates="partido")
 
 
 # 3. TABLA DE MODELOS PREDICTIVOS
@@ -155,3 +156,26 @@ class ApuestaUsuario(Base):
     # Relaciones
     usuario = relationship("Usuario", back_populates="apuestas")
     prediccion = relationship("PrediccionLog", back_populates="apuestas_usuarios")
+
+# 6. TABLA DE VARIABLES PREVIAS AL PARTIDO (versionada)
+class PartidoFeatures(Base):
+    __tablename__ = 'partidos_features'
+    __table_args__ = (UniqueConstraint('id_partido', 'version'),)
+
+    id_features = Column(Integer, primary_key=True, autoincrement=True)
+    id_partido = Column(Integer, ForeignKey('partidos_historico.id_partido'), nullable=False)
+    version = Column(String(20), nullable=False)
+    fecha_calculo = Column(DateTime, default=datetime.utcnow)
+
+    puntos_ult5_local = Column(Integer, nullable=True)
+    puntos_ult5_visitante = Column(Integer, nullable=True)
+    goles_favor_ult5_local = Column(Numeric(4, 2), nullable=True)
+    goles_favor_ult5_visitante = Column(Numeric(4, 2), nullable=True)
+    goles_contra_ult5_local = Column(Numeric(4, 2), nullable=True)
+    goles_contra_ult5_visitante = Column(Numeric(4, 2), nullable=True)
+    dias_descanso_local = Column(Integer, nullable=True)
+    dias_descanso_visitante = Column(Integer, nullable=True)
+    elo_propio_local = Column(Numeric(6, 2), nullable=True)
+    elo_propio_visitante = Column(Numeric(6, 2), nullable=True)
+
+    partido = relationship("PartidoHistorico", back_populates="features")

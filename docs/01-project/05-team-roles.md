@@ -8,24 +8,28 @@ El equipo desarrollará el proyecto utilizando un enfoque híbrido Scrum/Kanban.
 
 ### 2. Roles y Responsabilidades
 
-**Daniel (Scrum Master / Backend)**
-- Liderar las ceremonias (Planificación los sábados, Dailys extendidos los miércoles).
+### Daniel (Scrum Master / Backend)
+
+- Liderar las ceremonias (Planificación los sábados, Dailies extendidos los miércoles).
 - Diseñar la base de datos relacional (SQLite) y mapearla con SQLAlchemy.
 - Programar la lógica central del servidor en FastAPI.
 - Dirigir las sesiones de auditoría técnica al cerrar módulos importantes.
 
-**Santiago (Product Owner / IA & Datos)**
+### Santiago (Product Owner / IA & Datos)
+
 - Definir la estrategia comercial y el enfoque en "Unidades".
 - Entrenar el modelo de Machine Learning y validar el Yield en backtesting.
 - Procesar y limpiar el dataset histórico CSV de las 5 ligas.
 - Ajustar matemáticamente la fórmula del Criterio de Kelly (enfocado en cuotas 1.50 - 1.80).
 
-**Carlos (QA / Frontend UI)**
+### Carlos (QA / Frontend UI)
+
 - Liderar el diseño e implementación de la Interfaz Gráfica (React).
 - Garantizar que el usuario final interactúe con dashboards visuales y jamás mediante terminales.
 - Realizar pruebas de interfaz y diseño, graficando las curvas de rentabilidad.
 
-**Diego (Integración / API Propia)**
+### Diego (Integración / API Propia)
+
 - Liderar el desarrollo de la API interna para eliminar la dependencia de terceros (Make/Zapier).
 - Crear scripts nativos de Python para ingestar los datos a la base local.
 - Estructurar el módulo secundario de los "Picks Soñadores".

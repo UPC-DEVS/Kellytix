@@ -1,5 +1,3 @@
-gin i
-
 # Guía para crear e iniciar la base de datos
 
 Esta guía explica cómo preparar el entorno, generar el dataset procesado,

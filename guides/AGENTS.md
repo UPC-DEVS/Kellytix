@@ -32,7 +32,7 @@ The test directories are currently placeholders and no test framework or coverag
 
 ## Commit & Pull Request Guidelines
 
-Follow the [`commit-conventions`](.agents/skills/commit-conventions/SKILL.md) skill for all commit-related tasks, including creating, suggesting, reviewing, and correcting commit messages.
+Follow the [`commit-conventions`](../.agents/skills/commit-conventions/SKILL.md) skill for all commit-related tasks, including creating, suggesting, reviewing, and correcting commit messages.
 
 Do not duplicate or override the conventions defined in the skill. It is the single source of truth for commit messages.
 

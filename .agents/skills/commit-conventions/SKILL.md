@@ -3,6 +3,7 @@ name: commit-conventions
 
 description: Apply the team's commit message conventions whenever creating, suggesting, reviewing, or correcting Git commits.
 ---
+
 # Commit Conventions
 
 ## Standard
@@ -52,7 +53,7 @@ Do not invent additional types.
 8. Avoid vague descriptions such as update code, fix stuff, or changes.
 9. Do not include unnecessary details in the subject.
 
-## Worlflow
+## Workflow
 
 Whenever asked to create or suggest a commit message, follow these steps:
 

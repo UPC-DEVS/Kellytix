@@ -20,12 +20,32 @@ def clave(s):
 inicio = time.time()
 
 # 1. Historial: matches.csv (desde el año 2000, todas las divisiones) + partidos nuevos de features.csv
-necesarias = ["match_date", "home_team", "away_team", "ft_home_goals", "ft_away_goals", "ft_result"]
-h = pd.read_csv(HISTORIAL, low_memory=False)
-f = pd.read_csv(FEATURES, low_memory=False)
-for nombre, tabla in ((HISTORIAL, h), (FEATURES, f)):
-    faltan = [c for c in necesarias if c not in tabla.columns]
-    assert not faltan, f"Faltan columnas en {nombre}: {faltan}"
+ALIASES = {
+    "match_date": ("match_date", "MatchDate", "Date", "fecha"),
+    "home_team": ("home_team", "HomeTeam", "equipo_local"),
+    "away_team": ("away_team", "AwayTeam", "equipo_visitante"),
+    "ft_home_goals": ("ft_home_goals", "FTHome", "FTHG", "goles_local"),
+    "ft_away_goals": ("ft_away_goals", "FTAway", "FTAG", "goles_visitante"),
+    "ft_result": ("ft_result", "FTResult", "FTR", "resultado_final"),
+}
+
+
+def normalizar_columnas(df, nombre):
+    renombres = {}
+    for destino, opciones in ALIASES.items():
+        encontrada = next((col for col in opciones if col in df.columns), None)
+        assert encontrada is not None, (
+            f"Falta columna equivalente a '{destino}' en {nombre} "
+            f"(disponibles: {list(df.columns)[:10]})"
+        )
+        renombres[encontrada] = destino
+    return df.rename(columns=renombres)
+
+
+necesarias = list(ALIASES.keys())
+h = normalizar_columnas(pd.read_csv(HISTORIAL, low_memory=False), HISTORIAL)
+f = normalizar_columnas(pd.read_csv(FEATURES, low_memory=False), FEATURES)
+
 h = pd.concat([h[necesarias], f[necesarias]], ignore_index=True).dropna()
 h["match_date"] = pd.to_datetime(h["match_date"])
 h["k_local"] = h.home_team.map(clave)
@@ -60,8 +80,12 @@ filas = len(f)
 f["match_date"] = pd.to_datetime(f["match_date"])
 f["k_local"] = f.home_team.map(clave)
 f["k_visit"] = f.away_team.map(clave)
-f = f.merge(h[["match_date", "k_local", "k_visit"] + nuevas],
-            on=["match_date", "k_local", "k_visit"], how="left", validate="one_to_one")
+f = f.merge(
+    h[["match_date", "k_local", "k_visit"] + nuevas],
+    on=["match_date", "k_local", "k_visit"],
+    how="left",
+    validate="one_to_one",
+)
 f = f.drop(columns=["k_local", "k_visit"])
 assert len(f) == filas, "La unión cambió el número de filas"
 
@@ -85,8 +109,10 @@ print(f"\nComparación con el Elo del dataset ({int(comp.sum())} partidos que ti
 print(f"- correlación local: {f.loc[comp, 'elo_propio_local'].corr(f.loc[comp, 'home_elo']):.3f}")
 print(f"- correlación visitante: {f.loc[comp, 'elo_propio_visitante'].corr(f.loc[comp, 'away_elo']):.3f}")
 print(f"- diferencia media absoluta: {(f.loc[comp, 'elo_propio_local'] - f.loc[comp, 'home_elo']).abs().mean():.0f} puntos")
-print(f"- error de predicción (Brier, menor es mejor): propio {brier(f.elo_propio_local, f.elo_propio_visitante):.4f}"
-      f" | dataset {brier(f.home_elo, f.away_elo):.4f} | sin información (siempre 0,5) {float(np.mean((0.5 - real[comp]) ** 2)):.4f}")
+print(
+    f"- error de predicción (Brier, menor es mejor): propio {brier(f.elo_propio_local, f.elo_propio_visitante):.4f}"
+    f" | dataset {brier(f.home_elo, f.away_elo):.4f} | sin información (siempre 0,5) {float(np.mean((0.5 - real[comp]) ** 2)):.4f}"
+)
 
 nuevos = f.match_date >= "2025-07-01"
 print(f"\nPartidos desde 2025-07-01: {int(nuevos.sum())} | Elo propio medio: {f.loc[nuevos, nuevas].mean().mean():.0f}")
